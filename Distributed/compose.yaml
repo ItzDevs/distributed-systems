@@ -1,0 +1,17 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      - 'POSTGRES_DB=mydatabase'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=myuser'
+    ports:
+      - '65255:5432'
+#  kafka:
+#    image: 'chainguard/kafka:latest'
+#    ports:
+#      - '9092:9092'
+#    environment:
+#      - 'ALLOW_PLAINTEXT_LISTENER=yes'
+#    volumes:
+#      - './docker/kafka/server.properties:/usr/lib/kafka/config/server.properties'
