@@ -73,9 +73,9 @@ public class RmiEditorService extends UnicastRemoteObject implements IEditorRmi 
     @Override
     public void update(UpdateBlog blog) {
         if(blogService.updateBlog(blog)){
-            log.info("Updated blog: {}", blog.getTitle());
+            log.info("Updated blog: {}", blog.getId());
         } else {
-            log.warn("Failed to update blog: {}", blog.getTitle());
+            log.warn("Failed to update blog: {}", blog.getId());
         }
     }
 
