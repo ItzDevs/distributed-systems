@@ -1,14 +1,10 @@
 package dev.distributed.service.rmi;
 
-import dev.distributed.contract.TimestampHelper;
-import dev.distributed.service.database.BlogDb;
+import dev.distributed.contract.dto.RemoveBlog;
 import dev.distributed.contract.dto.NewBlog;
 import dev.distributed.contract.dto.UpdateBlog;
-import dev.distributed.service.database.UserDb;
-import dev.distributed.service.entities.Blog;
-import dev.distributed.service.entities.User;
 import dev.distributed.contract.rmi.IEditorRmi;
-import dev.distributed.service.workers.UserService;
+import dev.distributed.service.workers.BlogService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +15,12 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.sql.Timestamp;
-import java.util.Optional;
-import java.util.UUID;
 
 @Service
 @Slf4j(topic = "rmiEdtiorService")
 public class RmiEditorService extends UnicastRemoteObject implements IEditorRmi {
 
-    private UserDb userDb;
-
-    private BlogDb blogDb;
+    private BlogService blogService;
 
     @Value("${rmi.enabled}")
     private boolean rmiEnabled;
@@ -46,12 +37,10 @@ public class RmiEditorService extends UnicastRemoteObject implements IEditorRmi 
     public RmiEditorService() throws RemoteException { }
 
     @Autowired
-    public RmiEditorService(BlogDb blogDb,
-                            UserDb userDb) throws RemoteException {
+    public RmiEditorService(BlogService blogService) throws RemoteException {
         super();
 
-        this.userDb = userDb;
-        this.blogDb = blogDb;
+        this.blogService = blogService;
     }
 
 
@@ -74,49 +63,30 @@ public class RmiEditorService extends UnicastRemoteObject implements IEditorRmi 
 
     @Override
     public void post(NewBlog blog) {
-        User resolvedUser = userDb.findById(blog.getAuthorId()).orElse(null);
-
-        Blog newBlog = Blog.toBlog(blog, resolvedUser);
-        blogDb.save(newBlog);
-
+        if(blogService.postBlog(blog)){
+            log.info("Posted blog: {}", blog.getTitle());
+        } else{
+            log.warn("Failed to post blog: {}", blog.getTitle());
+        }
     }
 
     @Override
     public void update(UpdateBlog blog) {
-        Optional<Blog> identifiedBlogContainer = blogDb.findById(blog.getId());
-        if(identifiedBlogContainer.isEmpty())
-            return;
-
-        Blog identifiedBlog = identifiedBlogContainer.get();
-
-        // Nothing to update
-//        if(blog.isSame(identifiedBlog))
-//            return;
-
-        if(blog.getTitle() != null){
-            identifiedBlog.setTitle(blog.getTitle());
+        if(blogService.updateBlog(blog)){
+            log.info("Updated blog: {}", blog.getTitle());
+        } else {
+            log.warn("Failed to update blog: {}", blog.getTitle());
         }
-        if(blog.getContent() != null){
-            identifiedBlog.setContent(blog.getContent());
-        }
-        if(blog.getMediaUrls()!= null){
-            identifiedBlog.setMediaUrls(blog.getMediaUrls());
-        }
-        if(blog.getTags()!= null){
-            identifiedBlog.setTags(blog.getTags());
-        }
-        if(blog.getAuthorId()!= null){
-            identifiedBlog.setAuthor(userDb.findById(blog.getAuthorId()).orElse(null));
-        }
-
-        Timestamp timestamp = TimestampHelper.getCurrentTimestamp();
-        identifiedBlog.setUpdatedAt(timestamp);
-        blogDb.save(identifiedBlog);
     }
 
     @Override
-    public void delete(UUID blog) {
-        blogDb.deleteById(blog);
+    public void delete(RemoveBlog blog) {
+        if(blogService.deleteBlog(blog)){
+            log.info("Deleted blog: {}", blog.getBlogId());
+        }
+        else{
+            log.warn("Failed to delete blog: {}", blog.getBlogId());
+        }
     }
 }
 

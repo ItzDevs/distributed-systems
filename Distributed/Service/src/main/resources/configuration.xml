@@ -3,6 +3,10 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="rmiEditorService" class="dev.distributed.service.rmi.RmiEditorService">
+        <constructor-arg name="blogService">
+            <bean class="dev.distributed.service.workers.BlogService">
 
+            </bean>
+        </constructor-arg>
     </bean>
 </beans>

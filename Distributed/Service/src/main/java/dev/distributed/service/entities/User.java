@@ -17,7 +17,7 @@ import java.util.UUID;
 @Setter
 public class User {
     @Id
-    public UUID id;
+    private UUID id;
 
     @OneToMany(mappedBy = "id")
     private Set<Blog> blogs;

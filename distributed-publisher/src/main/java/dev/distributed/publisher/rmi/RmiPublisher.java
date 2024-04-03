@@ -1,6 +1,7 @@
 package dev.distributed.publisher.rmi;
 
 import dev.distributed.contract.dto.NewBlog;
+import dev.distributed.contract.dto.RemoveBlog;
 import dev.distributed.contract.dto.UpdateBlog;
 import dev.distributed.contract.rmi.IEditorRmi;
 import jakarta.annotation.PostConstruct;
@@ -54,7 +55,7 @@ public class RmiPublisher {
         rmiComponent.update(blog);
     }
 
-    public void delete(UUID blog) throws RemoteException {
+    public void delete(RemoveBlog blog) throws RemoteException {
         rmiComponent.delete(blog);
     }
 }

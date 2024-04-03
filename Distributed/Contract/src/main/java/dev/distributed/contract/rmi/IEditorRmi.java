@@ -1,6 +1,7 @@
 package dev.distributed.contract.rmi;
 
 import dev.distributed.contract.dto.NewBlog;
+import dev.distributed.contract.dto.RemoveBlog;
 import dev.distributed.contract.dto.UpdateBlog;
 
 import java.rmi.Remote;
@@ -12,5 +13,5 @@ public interface IEditorRmi extends Remote {
 
     void update(UpdateBlog blog) throws RemoteException;
 
-    void delete(UUID blog) throws RemoteException;
+    void delete(RemoveBlog blog) throws RemoteException;
 }

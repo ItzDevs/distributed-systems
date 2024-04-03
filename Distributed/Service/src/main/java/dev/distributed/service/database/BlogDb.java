@@ -16,6 +16,8 @@ public interface BlogDb extends JpaRepository<Blog, UUID> {
 //    @Query("SELECT b FROM Blog b WHERE :tag in b.tags")
 //    List<Blog> findBlogsWithTag(@Param("tag") String tag);
 
+    <S extends Blog> S removeById(UUID id);
+
     /**
      * Save or update a Blog
      *

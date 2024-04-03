@@ -11,6 +11,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -18,33 +19,33 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity(name = "Blog")
 @Table(name = "blogs", indexes = {
-        @Index(name = "title__indx", columnList = "title"),
+        @Index(name = "title_unq__indx", columnList = "title", unique = true),
 })
 @Getter @Setter
 public class Blog {
 
     @Id
-    public UUID id;
+    private UUID id;
 
-    public String title;
+    private String title;
 
-    public String content;
-
-    @Type(StringArrayType.class)
-    @Column(columnDefinition = "TEXT[]")
-    public String[] mediaUrls;
+    private String content;
 
     @Type(StringArrayType.class)
     @Column(columnDefinition = "TEXT[]")
-    public String[] tags;
+    private String[] mediaUrls;
+
+    @Type(StringArrayType.class)
+    @Column(columnDefinition = "TEXT[]")
+    private String[] tags;
 
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
-    public User author;
+    private User author;
 
-    public Timestamp createdAt;
+    private Timestamp createdAt;
 
-    public Timestamp updatedAt;
+    private Timestamp updatedAt;
 
     public static Blog toBlog(NewBlog blog, User resolvedUser){
         return new Blog(
@@ -56,6 +57,15 @@ public class Blog {
                 resolvedUser,
                 TimestampHelper.getCurrentTimestamp(),
                 TimestampHelper.getCurrentTimestamp());
+    }
+
+
+    public static boolean isSame(Blog blog, NewBlog newBlog){
+        return blog.title.equals(newBlog.getTitle()) &&
+                blog.content.equals(newBlog.getContent()) &&
+                Arrays.equals(blog.mediaUrls, newBlog.getMediaUrls()) &&
+                Arrays.equals(blog.tags, newBlog.getTags());
+
     }
 }
 

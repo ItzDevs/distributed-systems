@@ -18,5 +18,10 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateBlog extends NewBlog implements Serializable {
-    public UUID id;
+
+    public UpdateBlog(UUID id, String title, String content, String[] mediaUrls, String[] tags, UUID authorId) {
+        super(title, content, mediaUrls, tags, authorId);
+        this.id = id;
+    }
+    private UUID id;
 }
