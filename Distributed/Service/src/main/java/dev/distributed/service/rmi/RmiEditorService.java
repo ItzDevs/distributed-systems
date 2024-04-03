@@ -22,9 +22,6 @@ public class RmiEditorService extends UnicastRemoteObject implements IEditorRmi 
 
     private BlogService blogService;
 
-    @Value("${rmi.enabled}")
-    private boolean rmiEnabled;
-
     @Value("${rmi.host}")
     private String host;
 

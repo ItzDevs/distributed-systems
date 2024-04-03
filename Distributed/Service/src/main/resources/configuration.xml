@@ -2,11 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- This bean will create the DI object for the RMI service, comment/remove this bean to disable RMI. -->
     <bean id="rmiEditorService" class="dev.distributed.service.rmi.RmiEditorService">
         <constructor-arg name="blogService">
-            <bean class="dev.distributed.service.workers.BlogService">
-
-            </bean>
+            <bean class="dev.distributed.service.workers.BlogService" />
         </constructor-arg>
     </bean>
+
+
+    <!-- This bean will create the DI object for the Kafka service, comment/remove this bean to disable Kafka. -->
 </beans>
