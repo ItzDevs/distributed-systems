@@ -1,5 +1,6 @@
 package dev.distributed.contract.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +24,7 @@ public class UpdateBlog extends NewBlog implements Serializable {
         super(title, content, mediaUrls, tags, authorId);
         this.id = id;
     }
+
+    @JsonIgnore
     private UUID id;
 }

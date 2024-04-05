@@ -6,14 +6,11 @@ import dev.distributed.contract.dto.UpdateBlog;
 import dev.distributed.contract.rmi.IEditorRmi;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
-import java.util.UUID;
 
 @Service
 @Slf4j(topic = "rmiPublisher")
@@ -47,15 +44,15 @@ public class RmiPublisher {
         }
     }
 
-    public void post(NewBlog blog) throws RemoteException {
-        rmiComponent.post(blog);
+    public boolean post(NewBlog blog) throws RemoteException {
+        return rmiComponent.post(blog);
     }
 
-    public void update(UpdateBlog blog) throws RemoteException {
-        rmiComponent.update(blog);
+    public boolean update(UpdateBlog blog) throws RemoteException {
+        return rmiComponent.update(blog);
     }
 
-    public void delete(RemoveBlog blog) throws RemoteException {
-        rmiComponent.delete(blog);
+    public boolean delete(RemoveBlog blog) throws RemoteException {
+        return rmiComponent.delete(blog);
     }
 }

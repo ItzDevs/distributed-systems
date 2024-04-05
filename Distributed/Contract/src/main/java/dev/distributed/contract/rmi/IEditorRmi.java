@@ -6,12 +6,11 @@ import dev.distributed.contract.dto.UpdateBlog;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.UUID;
 
 public interface IEditorRmi extends Remote {
-    void post(NewBlog blog) throws RemoteException;
+    boolean post(NewBlog blog) throws RemoteException;
 
-    void update(UpdateBlog blog) throws RemoteException;
+    boolean update(UpdateBlog blog) throws RemoteException;
 
-    void delete(RemoveBlog blog) throws RemoteException;
+    boolean delete(RemoveBlog blog) throws RemoteException;
 }

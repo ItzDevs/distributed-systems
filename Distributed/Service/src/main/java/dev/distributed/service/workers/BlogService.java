@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.UUID;
 
 // Regardless of the data source used, whether that be RMI or Kafka, the handling of blogs remains the same.
 // This service abstracts the logic for handling the data so that RMI/Kafka only need to focus

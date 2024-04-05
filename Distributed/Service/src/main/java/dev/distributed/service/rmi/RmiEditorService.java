@@ -59,31 +59,37 @@ public class RmiEditorService extends UnicastRemoteObject implements IEditorRmi 
     }
 
     @Override
-    public void post(NewBlog blog) {
-        if(blogService.postBlog(blog)){
+    public boolean post(NewBlog blog) {
+        boolean result = blogService.postBlog(blog);
+        if(result){
             log.info("Posted blog: {}", blog.getTitle());
         } else{
             log.warn("Failed to post blog: {}", blog.getTitle());
         }
+        return result;
     }
 
     @Override
-    public void update(UpdateBlog blog) {
-        if(blogService.updateBlog(blog)){
+    public boolean update(UpdateBlog blog) {
+        boolean result = blogService.updateBlog(blog);
+        if(result){
             log.info("Updated blog: {}", blog.getId());
-        } else {
+        } else{
             log.warn("Failed to update blog: {}", blog.getId());
         }
+        return result;
     }
 
     @Override
-    public void delete(RemoveBlog blog) {
-        if(blogService.deleteBlog(blog)){
+    public boolean delete(RemoveBlog blog) {
+        boolean result = blogService.deleteBlog(blog);
+        if(result){
             log.info("Deleted blog: {}", blog.getBlogId());
         }
         else{
             log.warn("Failed to delete blog: {}", blog.getBlogId());
         }
+        return result;
     }
 }
 
