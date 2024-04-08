@@ -1,6 +1,5 @@
 package dev.distributed.service.kafka;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.distributed.contract.dto.NewBlog;
 import dev.distributed.contract.dto.RemoveBlog;
@@ -9,13 +8,12 @@ import dev.distributed.contract.kafka.IEditorKafka;
 import dev.distributed.service.workers.BlogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j(topic = "KafkaEditorService")
-public class KafkaEditorService implements IEditorKafka {
+public class KafkaEditorService {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     private final BlogService blogService;
