@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.distributed.contract.dto.NewBlog;
 import dev.distributed.contract.dto.RemoveBlog;
 import dev.distributed.contract.dto.UpdateBlog;
+import dev.distributed.contract.kafka.IEditorKafka;
 import dev.distributed.service.workers.BlogService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j(topic = "KafkaEditorService")
-public class KafkaEditorService {
+public class KafkaEditorService implements IEditorKafka {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    private BlogService blogService;
+    private final BlogService blogService;
 
     @Autowired
     public KafkaEditorService(BlogService blogService) {
@@ -25,7 +26,7 @@ public class KafkaEditorService {
     }
 
     @KafkaListener(topics = { "newblog" }, groupId = "distributed-consumer")
-    public void consumeNewBlog(String message) {
+    public void postBlog(String message) {
         try{
             log.info("Received a new blog from Kafka  " + message);
             NewBlog blog = objectMapper.readValue(message, NewBlog.class);
@@ -43,7 +44,7 @@ public class KafkaEditorService {
     }
 
     @KafkaListener(topics = { "updateblog"}, groupId = "distributed-consumer")
-    public void UpdateBlog(String message){
+    public void updateBlog(String message){
         try{
             log.info("Received an updated blog from Kafka  " + message);
             UpdateBlog blog = objectMapper.readValue(message, UpdateBlog.class);

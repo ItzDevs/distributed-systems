@@ -5,9 +5,9 @@ import dev.distributed.contract.dto.RemoveBlog;
 import dev.distributed.contract.dto.UpdateBlog;
 
 public interface IEditorKafka {
-    boolean post(NewBlog blog);
+    void postBlog(String message);
 
-    boolean update(UpdateBlog blog);
+    void updateBlog(String message);
 
-    boolean delete(RemoveBlog blog);
+    void deleteBlog(String message);
 }
