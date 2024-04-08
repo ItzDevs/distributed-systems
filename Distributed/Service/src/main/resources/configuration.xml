@@ -5,11 +5,14 @@
 
     <!-- This bean will create the DI object for the RMI service, comment/remove this bean to disable RMI. -->
     <bean id="rmiEditorService" class="dev.distributed.service.rmi.RmiEditorService">
-        <constructor-arg name="blogService">
-            <bean class="dev.distributed.service.workers.BlogService" />
-        </constructor-arg>
+        <constructor-arg name="blogService" ref="blogService" />
     </bean>
 
 
     <!-- This bean will create the DI object for the Kafka service, comment/remove this bean to disable Kafka. -->
+    <bean id="kafkaEditorService" class="dev.distributed.service.kafka.KafkaEditorService">
+        <constructor-arg name="blogService" ref="blogService" />
+    </bean>
+
+    <bean id="blogService" class="dev.distributed.service.workers.BlogService" />
 </beans>
