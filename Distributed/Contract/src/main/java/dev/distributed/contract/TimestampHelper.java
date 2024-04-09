@@ -4,8 +4,10 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class TimestampHelper {
+    /**
+     * Quickly get the current timestamp.
+     */
     public static Timestamp getCurrentTimestamp(){
-        LocalDateTime localDateTime = LocalDateTime.now();
-        return Timestamp.valueOf(localDateTime);
+        return Timestamp.valueOf(LocalDateTime.now());
     }
 }

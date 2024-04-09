@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.distributed.contract.dto.NewBlog;
 import dev.distributed.contract.dto.RemoveBlog;
 import dev.distributed.contract.dto.UpdateBlog;
-import dev.distributed.contract.kafka.IEditorKafka;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -13,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j(topic = "KafkaPublisher")
-public class KafkaPublisher implements IEditorKafka {
+public class KafkaPublisher {
     @Autowired
     public KafkaPublisher(ProducerFactory<String, String> producerFactory) {
         blogPublisher = new KafkaTemplate<>(producerFactory);
@@ -27,7 +26,6 @@ public class KafkaPublisher implements IEditorKafka {
         blogPublisher.send(topic, data);
     }
 
-    @Override
     public boolean post(NewBlog blog) {
         try {
             String json = mapper.writeValueAsString(blog);
@@ -41,7 +39,6 @@ public class KafkaPublisher implements IEditorKafka {
         return false;
     }
 
-    @Override
     public boolean update(UpdateBlog blog) {
         try{
             String json = mapper.writeValueAsString(blog);
@@ -55,7 +52,6 @@ public class KafkaPublisher implements IEditorKafka {
         return false;
     }
 
-    @Override
     public boolean delete(RemoveBlog blog) {
         try{
             String json = mapper.writeValueAsString(blog);

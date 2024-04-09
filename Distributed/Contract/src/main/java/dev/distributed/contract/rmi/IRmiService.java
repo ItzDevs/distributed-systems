@@ -7,7 +7,10 @@ import dev.distributed.contract.dto.UpdateBlog;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-public interface IEditorRmi extends Remote {
+// Due to the way RMI works, this interface is required to be used in both projects (Service and Publisher),
+// this is for the Java Registry to be able to find the instance.
+
+public interface IRmiService extends Remote {
     boolean post(NewBlog blog) throws RemoteException;
 
     boolean update(UpdateBlog blog) throws RemoteException;

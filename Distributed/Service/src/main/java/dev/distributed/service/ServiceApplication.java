@@ -7,11 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@Configuration("configuration.xml")
-@EnableJpaRepositories
-@EntityScan("dev.distributed.service.entities")
+@Configuration("configuration.xml") // Loading up the Bean configurations
+@EnableJpaRepositories // JPA backing to the database.
+@EntityScan("dev.distributed.service.entities") // Database entities.
 public class ServiceApplication {
 
+    // Default start of Spring applications.
     public static void main(String[] args) {
         SpringApplication.run(ServiceApplication.class, args);
     }

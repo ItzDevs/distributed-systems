@@ -14,7 +14,9 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.UUID;
 
-
+/*
+    This class maps the Blog to the database.
+* */
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "Blog")
@@ -31,6 +33,7 @@ public class Blog {
 
     private String content;
 
+    // Media URLS and tags are stored as a string array in postgres.
     @Type(StringArrayType.class)
     @Column(columnDefinition = "TEXT[]")
     private String[] mediaUrls;
@@ -39,6 +42,7 @@ public class Blog {
     @Column(columnDefinition = "TEXT[]")
     private String[] tags;
 
+    // The author.
     @ManyToOne
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private User author;
@@ -47,6 +51,9 @@ public class Blog {
 
     private Timestamp updatedAt;
 
+    /**
+     * Converts a NewBlog object to a Blog.
+     **/
     public static Blog toBlog(NewBlog blog, User resolvedUser){
         return new Blog(
                 UUID.randomUUID(),
@@ -60,6 +67,9 @@ public class Blog {
     }
 
 
+    /**
+     * Checks the core components of a Blog to check if the content is identical.
+     */
     public static boolean isSame(Blog blog, NewBlog newBlog){
         return blog.title.equals(newBlog.getTitle()) &&
                 blog.content.equals(newBlog.getContent()) &&

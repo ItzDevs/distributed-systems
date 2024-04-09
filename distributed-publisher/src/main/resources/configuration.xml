@@ -2,23 +2,5 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="kafkaPublisher" class="dev.distributed.publisher.kafka.KafkaPublisher">
-        <constructor-arg name="producerFactory">
-            <bean class="dev.distributed.publisher.kafka.DefaultKafkaPublisher">
-                <constructor-arg name="configs">
-                    <map>
-                        <entry key="bootstrap.servers" value="77fb11ac7a113cb45f6a39dca2390cfc79c87eec78ea6bf488e218549f20b78d:9092"/>
-                        <entry key="compression.type" value="gzip" />
-                    </map>
-                </constructor-arg>
-            </bean>
-        </constructor-arg>
-    </bean>
+    <!-- All configuration is handled within the application.properties for this service. -->
 </beans>
-
-<!--
-<entry key="bootstrap.servers" value="localhost:9092"/>
-                <entry key="client.id" value=""/>
-                <entry key="group.id" value=""/>
-                <entry key="enable.auto.commit" value="false"/>
-                -->

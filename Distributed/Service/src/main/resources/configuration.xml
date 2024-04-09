@@ -4,15 +4,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- This bean will create the DI object for the RMI service, comment/remove this bean to disable RMI. -->
-    <bean id="rmiEditorService" class="dev.distributed.service.rmi.RmiEditorService">
+    <bean id="rmiEditorService" class="dev.distributed.service.rmi.RmiConsumerService">
         <constructor-arg name="blogService" ref="blogService" />
     </bean>
 
 
     <!-- This bean will create the DI object for the Kafka service, comment/remove this bean to disable Kafka. -->
-    <bean id="kafkaEditorService" class="dev.distributed.service.kafka.KafkaEditorService">
+    <bean id="kafkaEditorService" class="dev.distributed.service.kafka.KafkaConsumerService">
         <constructor-arg name="blogService" ref="blogService" />
     </bean>
 
+    <!-- Singular defined bean to reference for both RMI and Kafka; this creates a single instance
+    of the blog service. -->
     <bean id="blogService" class="dev.distributed.service.workers.BlogService" />
 </beans>

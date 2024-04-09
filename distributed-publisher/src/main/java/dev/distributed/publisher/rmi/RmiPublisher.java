@@ -3,7 +3,7 @@ package dev.distributed.publisher.rmi;
 import dev.distributed.contract.dto.NewBlog;
 import dev.distributed.contract.dto.RemoveBlog;
 import dev.distributed.contract.dto.UpdateBlog;
-import dev.distributed.contract.rmi.IEditorRmi;
+import dev.distributed.contract.rmi.IRmiService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,7 +25,7 @@ public class RmiPublisher {
     @Value("${rmi.hostname}")
     private String hostname;
 
-    IEditorRmi rmiComponent;
+    IRmiService rmiComponent;
 
     public RmiPublisher() {
 
@@ -37,7 +37,7 @@ public class RmiPublisher {
             String rmiUrl = String.format("rmi://%s:%d/%s", host, port, hostname);
             log.debug(rmiUrl);
             Registry registry = LocateRegistry.getRegistry(port);
-            rmiComponent = (IEditorRmi) registry.lookup(rmiUrl);
+            rmiComponent = (IRmiService) registry.lookup(rmiUrl);
         }
         catch(Exception e){
             log.error(e.getMessage(), e);

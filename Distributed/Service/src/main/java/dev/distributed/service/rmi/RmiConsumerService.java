@@ -3,7 +3,7 @@ package dev.distributed.service.rmi;
 import dev.distributed.contract.dto.RemoveBlog;
 import dev.distributed.contract.dto.NewBlog;
 import dev.distributed.contract.dto.UpdateBlog;
-import dev.distributed.contract.rmi.IEditorRmi;
+import dev.distributed.contract.rmi.IRmiService;
 import dev.distributed.service.workers.BlogService;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +17,8 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 @Service
-@Slf4j(topic = "rmiEdtiorService")
-public class RmiEditorService extends UnicastRemoteObject implements IEditorRmi {
+@Slf4j(topic = "rmiConsumerService")
+public class RmiConsumerService extends UnicastRemoteObject implements IRmiService {
 
     private BlogService blogService;
 
@@ -31,10 +31,10 @@ public class RmiEditorService extends UnicastRemoteObject implements IEditorRmi 
     @Value("${rmi.hostname}")
     private String hostname;
 
-    public RmiEditorService() throws RemoteException { }
+    public RmiConsumerService() throws RemoteException { }
 
     @Autowired
-    public RmiEditorService(BlogService blogService) throws RemoteException {
+    public RmiConsumerService(BlogService blogService) throws RemoteException {
         super();
 
         this.blogService = blogService;
