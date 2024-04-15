@@ -20,9 +20,8 @@ public interface BlogDb extends JpaRepository<Blog, UUID> {
      * Remove a Blog
      *
      * @param id The id of the Blog to remove
-     * @return The removed Blog
-     */
-    <S extends Blog> S removeById(UUID id);
+›     */
+    void removeById(UUID id);
 
     /**
      * Save or update a Blog

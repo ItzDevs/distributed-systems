@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.UUID;

@@ -67,7 +67,7 @@ public class KafkaArticlesController {
             @ApiResponse(responseCode = "400", description = "Failed to save article."),
             @ApiResponse(responseCode = "500", description = "Something went wrong.")}
     )
-    public ResponseEntity<String> createArticle(NewBlog newBlog) {
+    public ResponseEntity<String> createArticle(@RequestBody NewBlog newBlog) {
         try {
             boolean posted = publisher.post(newBlog);
             if(posted)
@@ -85,7 +85,7 @@ public class KafkaArticlesController {
             @ApiResponse(responseCode = "400", description = "Failed to update article."),
             @ApiResponse(responseCode = "500", description = "Something went wrong.")}
     )
-    public ResponseEntity<String> updateArticle(@PathVariable UUID articleUuid, UpdateBlog updateBlog) {
+    public ResponseEntity<String> updateArticle(@PathVariable UUID articleUuid, @RequestBody UpdateBlog updateBlog) {
         updateBlog.setId(articleUuid);
 
         try{
@@ -105,7 +105,7 @@ public class KafkaArticlesController {
             @ApiResponse(responseCode = "400", description = "Failed to delete article."),
             @ApiResponse(responseCode = "500", description = "Something went wrong.")}
     )
-    public ResponseEntity<String> deleteArticle(@PathVariable UUID articleUuid, RemoveBlog removeBlog) {
+    public ResponseEntity<String> deleteArticle(@PathVariable UUID articleUuid, @RequestBody RemoveBlog removeBlog) {
         removeBlog.setBlogId(articleUuid);
 
         try{

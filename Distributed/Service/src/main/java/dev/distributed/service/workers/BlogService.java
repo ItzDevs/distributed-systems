@@ -61,21 +61,22 @@ public class BlogService {
     public boolean updateBlog(UpdateBlog blog) {
         log.info("Updating blog: {}", blog.getId());
         User resolvedUser = userDb.findById(blog.getAuthorId()).orElse(null);
-        if(resolvedUser == null){
+        if (resolvedUser == null) {
             log.warn("Could not find user with id: {}", blog.getAuthorId());
             return false;
         }
 
         // Assert that the blog actually exists.
         Blog identifiedBlog = blogDb.findById(blog.getId()).orElse(null);
-        if(identifiedBlog == null){
+        if (identifiedBlog == null) {
             return false;
         }
 
         // Nothing to update - nothing further to validate.
-        if(Blog.isSame(identifiedBlog, blog))
+        if (Blog.isSame(identifiedBlog, blog)) {
+            log.info("Blog {} has no differences", blog.getId());
             return true;
-
+        }
         // Assert that the user is the author of the blog.
         if(!identifiedBlog.getAuthor().getId().equals(resolvedUser.getId())){
             log.warn("User {} is not the author of blog {}", resolvedUser.getId(), blog.getId());

@@ -16,6 +16,10 @@ import java.util.UUID;
 @Getter
 @Setter
 public class User {
+    public User(UUID userUuid) {
+        this.id = userUuid;
+    }
+
     @Id
     private UUID id;
 

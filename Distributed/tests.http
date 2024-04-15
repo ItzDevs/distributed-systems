@@ -1,0 +1,142 @@
+
+@PUBLISHER_RMI_BASE = http://localhost:8081/api/v1/rmi/articles
+@PUBLISHER_KAFKA_BASE = http://localhost:8081/api/v1/kafka/articles
+
+@CONSUMER_BASE = http://localhost:8082/api/v1/articles
+@USER_BASE = http://localhost:8082/api/v1/users
+
+@USER_UUID = 2F3099AD-B1E0-4E8B-A420-10A7A5D30E5D
+
+// SETUP:
+
+POST {{USER_BASE}}?userUuid={{USER_UUID}}
+
+> {%
+    client.assert(response.status === 201, "Response was not 201.")
+ %}
+###
+
+
+// RMI Tests:
+
+### Posting article
+POST {{PUBLISHER_RMI_BASE}}
+Content-Type: application/json
+
+{
+  "title": "Test Article for RMI",
+  "content": "This is a test article.",
+  "tags": [
+   "test",
+   "article"
+  ],
+  "mediaUrls": [
+   "https://example.com/image.jpg"
+  ],
+  "authorId": "{{USER_UUID}}"
+}
+
+> {%
+ client.assert(
+     response.status === 201,
+     "The response was not 201."
+ )
+%}
+
+
+
+### Updating article
+PUT {{PUBLISHER_RMI_BASE}}/0cf34735-3725-4a58-a784-088541e48648
+Content-Type: application/json
+
+{
+  "title": "Updated Test Article using RMI",
+  "body": "This is an updated test article for RMI.",
+  "authorId": "{{USER_UUID}}"
+}
+
+### Deleting article
+DELETE {{PUBLISHER_RMI_BASE}}/0cf34735-3725-4a58-a784-088541e48648
+Content-Type: application/json
+
+{
+  "authorId": "{{USER_UUID}}"
+}
+
+###
+
+// Kafka Tests
+
+### Posting article
+POST {{PUBLISHER_KAFKA_BASE}}
+Content-Type: application/json
+
+{
+  "title": "Test Article for Kafka",
+  "content": "This is a test article.",
+  "tags": [
+   "test",
+   "article"
+  ],
+  "mediaUrls": [
+   "https://example.com/image.jpg"
+  ],
+  "authorId": "{{USER_UUID}}"
+}
+
+> {%
+    client.assert(
+        response.status === 201,
+        "The response was not 201."
+    )
+%}
+
+### Updating article
+PUT {{PUBLISHER_KAFKA_BASE}}/b57479c9-66ec-4633-b029-e98bcc4ef442
+Content-Type: application/json
+
+{
+  "title": "Updated Test Article",
+  "body": "This is an updated test article.",
+  "authorId": "{{USER_UUID}}"
+}
+
+### Deleting article
+DELETE {{PUBLISHER_KAFKA_BASE}}/b57479c9-66ec-4633-b029-e98bcc4ef442
+Content-Type: application/json
+
+{
+  "authorId": "{{USER_UUID}}"
+}
+
+
+### Same article
+PUT {{PUBLISHER_KAFKA_BASE}}/eb38ce8d-93ff-4f18-8264-e2398092cadf
+Content-Type: application/json
+
+{
+  "title": "testing",
+  "content": "this is a test",
+  "mediaUrls": null,
+  "tags": [
+    "t1",
+    "t2"
+  ],
+  "authorId": "0fc17ba5-f56a-486b-9939-916da84ae676"
+}
+
+###
+POST {{PUBLISHER_KAFKA_BASE}}
+Content-Type: application/json
+
+{
+  "title": "kafka offline but will it consume?",
+  "content": "this is confirming that despite kafka being offline, this blog should still be posted.",
+  "mediaUrls": [
+    "string"
+  ],
+  "tags": [
+    "kafka", "tests"
+  ],
+  "authorId": "{{USER_UUID}}"
+}
